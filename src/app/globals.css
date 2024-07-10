@@ -34,5 +34,10 @@
 
 .button:hover {
   color: white;
-  border: none;
+  border: solid 2px rgb(119, 6, 6);
+}
+
+::selection {
+  background: white;
+  color: black;
 }
