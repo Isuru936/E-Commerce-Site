@@ -62,17 +62,19 @@ export default function Home() {
   });
   return (
     <div className="bg-black pt-4 w-screen text-white h-screen">
-      <button
-        onClick={() => {
-          setToggle(!toggle);
-          onToggle();
-        }}
-        className="right-3 absolute border border-white rounded-lg pl-3 pr-3 pt-2 pb-2 hover:bg-white hover:text-black duration-200 ease-in-out transition-colors"
-      >
-        Login
-      </button>
+      <div className="w-screen relative flex justify-end pr-3 pb-3">
+        <button
+          onClick={() => {
+            setToggle(!toggle);
+            onToggle();
+          }}
+          className=" border border-white rounded-lg pl-3 pr-3 pt-2 pb-2 hover:bg-white hover:text-black duration-200 ease-in-out transition-colors"
+        >
+          Login
+        </button>
+      </div>
 
-      <div className="flex flex-col lg:flex-row justify-center align-middle items-center h-full lg:gap-10">
+      <div className="flex flex-col pt-3 lg:flex-row justify-center align-middle items-center h-fit lg:gap-10">
         <div className="text-center lg:text-left">
           <p
             ref={text1Ref}
@@ -99,7 +101,7 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <div className="relative">
+          <div className="relative p-5">
             <Image
               src={"/3d.png"}
               width={400}
