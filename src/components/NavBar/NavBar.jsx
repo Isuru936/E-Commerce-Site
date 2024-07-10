@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
+import gsap from "gsap";
 
 const topics = [
   { name: "Home", link: "/" },
@@ -33,6 +36,26 @@ const socials = [
 ];
 
 const NavBar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const menuRef = useRef(false);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      gsap.fromTo(
+        menuRef.current,
+        { opacity: 0, x: 100 },
+        { opacity: 1, x: 0, duration: 0.5 }
+      );
+    } else {
+      gsap.fromTo(
+        menuRef.current,
+        { opacity: 1, x: 0 },
+        { opacity: 0, x: 100, duration: 0.5 }
+      );
+    }
+  }, [isMenuOpen]);
+
   return (
     <div
       className="text-white h-24 w-screen  flex flex-row justify-center items-center px-32 bg-black"
@@ -76,8 +99,25 @@ const NavBar = () => {
         }
       </div>
       <div className="absolute right-5">
-        <Icon icon="fluent:navigation-20-regular" />
+        <Icon
+          icon="fluent:navigation-20-regular"
+          onClick={() => {
+            setIsMenuOpen(!isMenuOpen);
+          }}
+        />
       </div>
+      {isMenuOpen && (
+        <div
+          ref={menuRef}
+          className="absolute bottom-24 right-5 bg-black bg-opacity-90 p-4 rounded-lg flex flex-col items-start gap-2"
+        >
+          {topics.map((topic) => (
+            <a href={topic.link} key={topic.name} className="text-white">
+              {topic.name.toUpperCase()}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

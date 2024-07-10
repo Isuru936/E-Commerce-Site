@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import styles from "./page.module.css";
 
 const textVariants = {
   initial: {
@@ -107,7 +108,7 @@ export default function Home() {
               width={400}
               height={100}
               alt="banner"
-              className="object-contain"
+              className={`object-contain ${styles.img}`}
             />
           </div>
         </div>

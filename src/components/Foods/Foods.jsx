@@ -49,7 +49,7 @@ const Foods = ({ category }) => {
   return (
     <div>
       <div>PIZZA Role</div>
-      <div className="text-black flex justify-center gap-20 flex-wrap">
+      <div className="text-black flex justify-center gap-20 flex-wrap p-16 lg:p-0">
         {products.map((product) => {
           return (
             <div key={product.id} className="">

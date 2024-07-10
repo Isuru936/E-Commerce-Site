@@ -21,9 +21,13 @@ const Promotions = () => {
       }}
     >
       <div className="w-full h-screen flex flex-col justify-center items-center">
-        <p className="font-thin text-3xl leading-normal">EXPLORE OUR PIZZAS</p>
-        <p className="font-normal text-8xl leading-normal">Promotions</p>
-        <p className={`${roboto_Condensed.className}  leading-normal`}>
+        <p className="text-3xl font-extralight leading-10">
+          EXPLORE OUR PIZZAS
+        </p>
+        <p className="font-bold lg:font-normal text-7xl lg:text-8xl leading-normal">
+          Promotions
+        </p>
+        <p className={`${roboto_Condensed.className} text-wrap leading-normal`}>
           Meticulously Crafted catering to a wide taste pallet.
         </p>
       </div>
