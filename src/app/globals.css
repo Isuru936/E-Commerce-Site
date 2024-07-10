@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.button {
+  position: relative;
+  overflow: hidden;
+  background: black;
+  color: white;
+  border: 2px solid white;
+  padding: 10px;
+  border-radius: 8px;
+  transition: color 0.3s ease;
+  z-index: 1;
+  width: 100%;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  border: none;
+  background: rgb(119, 6, 6);
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.button:hover::before {
+  width: 100%;
+}
+
+.button:hover {
+  color: white;
+  border: none;
+}
