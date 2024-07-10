@@ -102,11 +102,10 @@ export default function Home() {
           <div className="relative">
             <Image
               src={"/3d.png"}
-              width={500}
+              width={400}
               height={100}
               alt="banner"
               className="object-contain"
-              layout="responsive"
             />
           </div>
         </div>
