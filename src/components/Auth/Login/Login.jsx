@@ -42,7 +42,7 @@ function Login({ setClose, setIsLogin }) {
               />
               <div className="w-full flex pb-0 p-2">
                 <button className="w-fit text-white flex-1 border-r-0 rounded-r-none border border-white p-2 hover:bg-red-900 rounded-lg pt-2">
-                  Admin
+                  <a href="/admin/food">Admin</a>
                 </button>
                 <button className="w-fit text-white flex-1 border rounded-l-none border-white p-2 hover:bg-red-900 rounded-lg pt-2">
                   Client
