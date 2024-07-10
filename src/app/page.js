@@ -95,10 +95,12 @@ export default function Home() {
           >
             IN TOWN
           </p>
-          <div ref={buttonRef} className="w-full ">
-            <button className="bg-red-800 p-2 lg:p-4 pl-3 lg:pl-10 pr-3 lg:pr-10 justify-center hover:bg-red-700">
-              MENU
-            </button>
+          <div ref={buttonRef} className="w-full">
+            <a href="/menu">
+              <button className="bg-red-800 p-2 lg:p-4 pl-3 lg:pl-10 pr-3 lg:pr-10 justify-center hover:bg-red-700">
+                MENU
+              </button>
+            </a>
           </div>
         </div>
         <div>

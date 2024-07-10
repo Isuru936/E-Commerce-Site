@@ -98,7 +98,7 @@ const NavBar = () => {
           </div>
         }
       </div>
-      <div className="absolute right-5">
+      <div className="lg:hidden absolute right-5">
         <Icon
           icon="fluent:navigation-20-regular"
           onClick={() => {

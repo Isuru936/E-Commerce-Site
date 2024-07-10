@@ -28,7 +28,7 @@ function Login({ setClose, setIsLogin }) {
           <p className="text-lg text-center mt-3">
             Join with us to taste that inevitable
           </p>
-          <form className="w-full gap-2 flex-col flex">
+          <form className="w-full flex-col flex">
             <div className="w-full gap-2 p-5 text-black flex-col flex">
               <input
                 type="text"
@@ -40,7 +40,15 @@ function Login({ setClose, setIsLogin }) {
                 placeholder="Password"
                 className="w-full p-2 rounded-lg"
               />
-              <button className="mt-3 w-full border-white border p-2 rounded-lg button">
+              <div className="w-full flex pb-0 p-2">
+                <button className="w-fit text-white flex-1 border-r-0 rounded-r-none border border-white p-2 hover:bg-red-900 rounded-lg pt-2">
+                  Admin
+                </button>
+                <button className="w-fit text-white flex-1 border rounded-l-none border-white p-2 hover:bg-red-900 rounded-lg pt-2">
+                  Client
+                </button>
+              </div>
+              <button className="mt-3 w-full border-white border p-2 pb-0 rounded-lg button">
                 Login
               </button>
             </div>
