@@ -59,7 +59,7 @@ const ManageFood = () => {
 
   return (
     <div className="w-screen h-screen p-5 bg-black">
-      <div className="w-full  flex items-start justify-between ">
+      <div className="w-full flex-col lg:flex-row flex items-start justify-between ">
         <div className="w-fit h-fit ">
           <a href="/">
             <Image
@@ -114,7 +114,7 @@ const ManageFood = () => {
           </div>
         </div>
       </div>
-      <div className="w-full text-white bg-black p-4">
+      <div className="w-full text-white bg-black p-4 overflow-x-auto">
         <table className="w-full border-collapse table-auto">
           <thead>
             <tr className="bg-gray-800">
@@ -123,7 +123,7 @@ const ManageFood = () => {
               </th>
               <th className="p-4 text-left border-b border-gray-700">Price</th>
               <th className="p-4 text-left border-b border-gray-700">Image</th>
-              <th className="p-4 text-left border-b border-gray-700 text-wrap">
+              <th className="p-4 text-left border-b border-gray-700">
                 Content
               </th>
               <th className="p-4 text-left border-b border-gray-700">Action</th>
@@ -134,8 +134,8 @@ const ManageFood = () => {
               <td className="p-4 border-b border-gray-700">Pizza</td>
               <td className="p-4 border-b border-gray-700">
                 <p>Small: 790/=</p>
-                <p>Large : 880/=</p>
-                <p>edium: 820/=</p>
+                <p>Large: 880/=</p>
+                <p>Medium: 820/=</p>
               </td>
               <td className="p-4 border-b border-gray-700">
                 <Image
@@ -153,7 +153,7 @@ const ManageFood = () => {
               <td className="p-4 border-b border-gray-700 gap-5">
                 <button
                   type="button"
-                  className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300  shadow-green-500/50 shadow-lg  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 shadow-green-500/50 shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                 >
                   Edit
                 </button>
@@ -172,7 +172,7 @@ const ManageFood = () => {
         <div className="w-screen h-screen bg-[#ffffff63] absolute top-0 left-0 z-50">
           <div className="flex justify-center items-center align-middle h-screen">
             <div
-              className="w-3/4 h-3/4 bg-black flex flex-col rounded-lg p-4 "
+              className="w-3/4 h-fit bg-black flex flex-col rounded-lg p-4 "
               ref={addFoodRef}
             >
               <div className="w-full flex justify-between ">
@@ -185,7 +185,7 @@ const ManageFood = () => {
                   />
                 </button>
               </div>
-              <div className="text-white w-full gap-10 flex flex-row p-10">
+              <div className="text-white w-full gap-10 flex flex-col lg:flex-row p-2 lg:p-10">
                 <div className="flex-1 p-1">
                   <div>
                     <Image
@@ -286,7 +286,7 @@ const ManageFood = () => {
         <div className="w-screen h-screen bg-[#ffffff63] absolute top-0 left-0 z-50">
           <div className="flex justify-center items-center align-middle h-screen">
             <div
-              className="w-3/4 h-3/4 bg-black flex flex-col rounded-lg p-4"
+              className="w-3/4 h-fit lg:h-3/4 bg-black flex flex-col rounded-lg p-4"
               ref={addPromotionRef}
             >
               <div className="w-full flex justify-between ">
@@ -299,7 +299,7 @@ const ManageFood = () => {
                   />
                 </button>
               </div>
-              <div className="text-white w-full gap-10 flex flex-row p-10">
+              <div className="text-white w-full gap-10 flex flex-col lg:flex-row p-3 lg:p-10">
                 <div className="flex-1 p-1">
                   <div>
                     <Image
@@ -324,7 +324,7 @@ const ManageFood = () => {
                   </div>
                 </div>
                 <div className="flex-1 ">
-                  <form className="w-full">
+                  <form className="w-full ">
                     <div className="flex flex-col p-1 ">
                       <label htmlFor="foodName" className="font-extralight">
                         Promotion Name:
@@ -337,7 +337,7 @@ const ManageFood = () => {
                         className="p-1 rounded-lg w-full pl-2 text-black outline-none"
                       />
                     </div>
-                    <div className="mt-5 flex gap-3">
+                    <div className="mt-5 flex flex-col lg:flex-row gap-3">
                       <hr />
                       <p className=" font-extralight ">Combo Pack Price: </p>
                       <input

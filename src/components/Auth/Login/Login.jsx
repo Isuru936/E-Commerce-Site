@@ -5,7 +5,7 @@ import React from "react";
 function Login({ setClose, setIsLogin }) {
   return (
     <div className="w-screen h-screen bg-[#ffffff56] absolute flex justify-center items-center top-0 text-black">
-      <div className="w-96 h-4/6 p-5 text-white rounded-lg bg-black flex flex-col">
+      <div className="w-96 h-5/5 p-5 text-white rounded-lg bg-black flex flex-col">
         <div className="flex justify-end">
           <button
             className="p-1 rounded-full hover:bg-white hover:text-black duration-200 ease-in-out transition-colors"
