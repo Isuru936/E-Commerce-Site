@@ -3,12 +3,12 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDfwcPLWiKK7qafIAA0MXGXEsxFNbbWPvc",
-  authDomain: "palerimo-pizza.firebaseapp.com",
-  projectId: "palerimo-pizza",
-  storageBucket: "palerimo-pizza.appspot.com",
-  messagingSenderId: "140652307212",
-  appId: "1:140652307212:web:f83c8f810e97dd34e51f29",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: "G-D3VRRRHRE4",
 };
 

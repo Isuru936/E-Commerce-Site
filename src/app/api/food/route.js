@@ -31,7 +31,13 @@ export const POST = async (req) => {
       });
     }
 
-    const food = new Food({
+    let food = await Food.findById(req.query.id);
+
+    if (!food) {
+      return new NextResponse("Food item not found", { status: 404 });
+    }
+
+    food = new Food({
       productName,
       smallPrice,
       mediumPrice,
