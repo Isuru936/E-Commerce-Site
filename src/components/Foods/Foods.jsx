@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { Roboto_Condensed } from "next/font/google";
+import useSWR from "swr";
 
 const roboto_Condensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -8,57 +9,31 @@ const roboto_Condensed = Roboto_Condensed({
   weight: "100",
 });
 
-const products = [
-  {
-    id: 1,
-    productName: "Pizza",
-    productPrice: {
-      small: "790/=",
-      medium: "1,499/=",
-      large: "2,499/=",
-    },
-    image: "https://max-themes.net/demos/palermo/upload/palermo_demos_08.jpg",
-    content: "Pineapple, mushrooms, black olives, tomato sauce",
-  },
-  {
-    id: 2,
-    productName: "Pizza",
-    productPrice: {
-      small: "790/=",
-      medium: "1,499/=",
-      large: "2,499/=",
-    },
-    image: "https://max-themes.net/demos/palermo/upload/palermo_demos_08.jpg",
-    content: "Pineapple, mushrooms, black olives, tomato sauce",
-  },
-  {
-    id: 3,
-    productName: "Pizza",
-    productPrice: {
-      small: "790/=",
-      medium: "1,499/=",
-      large: "2,499/=",
-    },
-    image: "https://max-themes.net/demos/palermo/upload/palermo_demos_08.jpg",
-    content: "Pineapple, mushrooms, black olives, tomato sauce",
-  },
-];
-
 const Foods = ({ category }) => {
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+  const { data, error, isLoading } = useSWR("/api/food", fetcher);
+
+  console.log("data", data);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error...</div>;
+
   console.log("cate", category);
   return (
     <div>
       <div>PIZZA Role</div>
       <div className="text-black flex justify-center gap-20 flex-wrap p-16 lg:p-0">
-        {products.map((product) => {
+        {data.map((product) => {
           return (
-            <div key={product.id} className="">
+            <div key={product._id} className="">
               <div>
                 <Image
-                  src="https://max-themes.net/demos/palermo/upload/palermo_demos_08.jpg"
+                  src={product.image}
                   alt="pizza"
                   width={500}
                   height={600}
+                  loader={({ src }) => src}
                 />
               </div>
               <div>{product.productName}</div>
@@ -71,19 +46,19 @@ const Foods = ({ category }) => {
                 <div className="flex-col flex">
                   <p className="font-extrabold">SMALL</p>
                   <span className="text-red-800 font-extrabold">
-                    {product.productPrice.small}
+                    {product.smallPrice.toLocaleString()}/=
                   </span>
                 </div>
                 <div className="flex-col flex">
                   <p className="font-extrabold">MEDIUM</p>
                   <span className="text-red-800 font-extrabold">
-                    {product.productPrice.medium}
+                    {product.mediumPrice.toLocaleString()}/=
                   </span>
                 </div>
                 <div className="flex-col flex">
                   <p className=" font-extrabold">LARGE</p>
                   <span className="text-red-800 font-extrabold">
-                    {product.productPrice.large}
+                    {product.largePrice.toLocaleString()}/=
                   </span>
                 </div>
               </div>

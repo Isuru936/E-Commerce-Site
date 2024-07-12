@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-
 import { Roboto_Condensed } from "next/font/google";
 import { Icon } from "@iconify/react";
 import gsap from "gsap";
+import uploadImage from "@/utils/handleImageUploads.js";
+import useSWR from "swr";
 
 const roboto_Condensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -18,7 +19,84 @@ const ManageFood = () => {
   const [addPromotion, setAddPromotion] = useState(false);
   const addFoodRef = useRef(null);
   const addPromotionRef = useRef(null);
+  const imageRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    productName: "",
+    smallPrice: "",
+    mediumPrice: "",
+    largePrice: "",
+    image: "https://max-themes.net/demos/palermo/upload/palermo_demos_08.jpg",
+    content: "",
+  });
 
+  //handle Image upload
+  const handleUpload = async (file) => {
+    if (file) {
+      try {
+        setLoading(true);
+        const url = await uploadImage(file);
+        setFormData((prevFormData) => ({ ...prevFormData, image: url }));
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+        alert("Error");
+      }
+    }
+  };
+
+  //handleAddFood FormData POST
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    console.log(formData);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (
+      formData.smallPrice === "" &&
+      formData.mediumPrice === "" &&
+      formData.largePrice === ""
+    ) {
+      console.log(formData.smallPrice, "fasdasd");
+      alert("At least one price must be included");
+      return;
+    }
+    try {
+      const req = await fetch("/api/food", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const res = await req.json();
+      alert("Food added successfully");
+      setAddFood(false);
+      if (res.status === 201) {
+        console.log("Food added successfully");
+      }
+
+      if (res.status === 500) {
+        console.log("Error adding food");
+        alert("Error adding food");
+      }
+
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //fetch Menu
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, error, isLoading } = useSWR("/api/food", fetcher);
+
+  console.log(data);
+  //animations
   useEffect(() => {
     if (addFood) {
       gsap.fromTo(
@@ -58,7 +136,7 @@ const ManageFood = () => {
   };
 
   return (
-    <div className="w-screen h-screen p-5 bg-black">
+    <div className="w-screen h-full p-5 bg-black">
       <div className="w-full flex-col lg:flex-row flex items-start justify-between ">
         <div className="w-fit h-fit ">
           <a href="/">
@@ -130,41 +208,51 @@ const ManageFood = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-black hover:bg-red">
-              <td className="p-4 border-b border-gray-700">Pizza</td>
-              <td className="p-4 border-b border-gray-700">
-                <p>Small: 790/=</p>
-                <p>Large: 880/=</p>
-                <p>Medium: 820/=</p>
-              </td>
-              <td className="p-4 border-b border-gray-700">
-                <Image
-                  src="https://max-themes.net/demos/palermo/upload/palermo_demos_08.jpg"
-                  width={200}
-                  height={600}
-                  alt="Pizza"
-                />
-              </td>
-              <td className="p-4 border-b border-gray-700 w-3/6">
-                Pineapple, mushrooms, black olives, tomato saucePineapple,
-                mushrooms, black olives, tomato saucePineapple, mushrooms, black
-                olives, tomato sauce
-              </td>
-              <td className="p-4 border-b border-gray-700 gap-5">
-                <button
-                  type="button"
-                  className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 shadow-green-500/50 shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 shadow-lg shadow-red-500/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
+            {data && data.length > 0 ? (
+              data.map((food) => (
+                <tr key={food._id} className="bg-black hover:bg-red">
+                  <td className="p-4 border-b border-gray-700">
+                    {food.productName}
+                  </td>
+                  <td className="p-4 border-b border-gray-700">
+                    <p>Small: {food.smallPrice}</p>
+                    <p>Medium: {food.mediumPrice}</p>
+                    <p>Large: {food.largePrice}</p>
+                  </td>
+                  <td className="p-4 border-b border-gray-700">
+                    <Image
+                      src={food.image}
+                      width={200}
+                      height={600}
+                      alt={food.productName}
+                    />
+                  </td>
+                  <td className="p-4 border-b border-gray-700 w-3/6">
+                    {food.content}
+                  </td>
+                  <td className="p-4 border-b border-gray-700 gap-5">
+                    <button
+                      type="button"
+                      className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 shadow-green-500/50 shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 shadow-lg shadow-red-500/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="p-4 text-center">
+                  No food items found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -186,31 +274,47 @@ const ManageFood = () => {
                 </button>
               </div>
               <div className="text-white w-full gap-10 flex flex-col lg:flex-row p-2 lg:p-10">
-                <div className="flex-1 p-1">
-                  <div>
+                <div className="  flex-1 p-1 w-full  justify-center flex flex-col">
+                  <div className="relative">
+                    {loading && (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-40">
+                        <Icon
+                          icon="line-md:loading-loop"
+                          className="text-red-500 font-extrabold text-5xl"
+                        />
+                        <span className="text-black font-normal text-2xl"></span>
+                      </div>
+                    )}
                     <Image
-                      src="https://max-themes.net/demos/palermo/upload/palermo_demos_08.jpg"
+                      src={formData.image}
                       alt="food"
                       width={500}
-                      height={400}
+                      onClick={() => {
+                        imageRef.current.click();
+                      }}
+                      height={100}
+                      objectFit="cover"
+                      className="object-fit w-full max-w-full bg-white rounded-lg max-h-96"
                     />
                   </div>
                   <div>
-                    <label
-                      className="block mt-2 text-sm text-white font-extralight"
-                      htmlFor="file_input"
-                    >
-                      Upload file
-                    </label>
                     <input
-                      className="block w-full text-sm text-gray-400 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none "
+                      ref={imageRef}
+                      className=" hidden w-full text-sm text-gray-400 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none "
                       id="file_input"
+                      required
+                      onChange={(e) => {
+                        const selectedFile = e.target.files[0];
+                        if (selectedFile) {
+                          handleUpload(selectedFile);
+                        }
+                      }}
                       type="file"
                     />
                   </div>
                 </div>
                 <div className="flex-1 ">
-                  <form className="w-full">
+                  <form className="w-full" onSubmit={handleSubmit}>
                     <div className="flex flex-col p-1 ">
                       <label htmlFor="foodName" className="font-extralight">
                         Food Name:
@@ -218,7 +322,9 @@ const ManageFood = () => {
                       <input
                         type="text"
                         placeholder="Enter food name"
-                        name="foodName"
+                        name="productName"
+                        required
+                        onChange={(e) => handleChange(e)}
                         id="foodName"
                         className="p-1 rounded-lg w-full pl-2 text-black outline-none"
                       />
@@ -231,7 +337,8 @@ const ManageFood = () => {
                         </span>
                         <input
                           type="number"
-                          name="small"
+                          name="smallPrice"
+                          onChange={(e) => handleChange(e)}
                           placeholder="Ex: 1,200"
                           className="p-1 pl-2 rounded-lg w-full outline-none text-black"
                         />
@@ -243,7 +350,8 @@ const ManageFood = () => {
                         <input
                           type="number"
                           placeholder="Ex: 1,200"
-                          name="medium"
+                          name="mediumPrice"
+                          onChange={(e) => handleChange(e)}
                           className="p-1 pl-2 rounded-lg w-full outline-none text-black"
                         />
                       </div>
@@ -253,7 +361,8 @@ const ManageFood = () => {
                         </span>
                         <input
                           type="number"
-                          name="large"
+                          name="largePrice"
+                          onChange={(e) => handleChange(e)}
                           placeholder="Ex: 1,200"
                           className="p-1 pl-2 rounded-lg w-full outline-none text-black"
                         />
@@ -262,16 +371,32 @@ const ManageFood = () => {
                     <div className="mt-5 ">
                       <p className="mb font-extralight">Content</p> <hr />
                       <textarea
-                        id="message"
+                        id="content"
                         rows="4"
+                        onChange={(e) => handleChange(e)}
+                        name="content"
+                        required
                         className="block p-2.5 w-full text-sm mt-3 rounded-lg border  bg-white border-gray-600 placeholder-gray-400 text-black outline-none"
                         placeholder="Include the contents here..."
                       ></textarea>
                     </div>
                     <div className="flex h-full justify-end pt-5">
-                      <button className="relative inline-flex items-center justify-end p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                      <button
+                        disabled={loading}
+                        className="relative inline-flex items-center justify-end p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+                      >
                         <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                          Add to Menu
+                          {loading ? (
+                            <div className="flex justify-center items-center gap-1">
+                              <Icon
+                                icon="line-md:uploading-loop"
+                                className="text-xl"
+                              />
+                              <span>Uploading Image</span>
+                            </div>
+                          ) : (
+                            "Add to Menu"
+                          )}
                         </span>
                       </button>
                     </div>
