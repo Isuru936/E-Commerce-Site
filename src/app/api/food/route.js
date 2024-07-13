@@ -20,8 +20,6 @@ export const POST = async (req) => {
 
     const body = await req.json();
 
-    console.log(body);
-
     const { productName, smallPrice, mediumPrice, largePrice, image, content } =
       body;
 
@@ -31,13 +29,7 @@ export const POST = async (req) => {
       });
     }
 
-    let food = await Food.findById(req.query.id);
-
-    if (!food) {
-      return new NextResponse("Food item not found", { status: 404 });
-    }
-
-    food = new Food({
+    const food = new Food({
       productName,
       smallPrice,
       mediumPrice,
@@ -45,8 +37,10 @@ export const POST = async (req) => {
       image,
       content,
     });
+
     await food.save();
-    return new NextResponse(JSON.stringify(food), { status: 201 });
+
+    return new NextResponse(JSON.stringify(food), { status: 200 });
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return new NextResponse("Server Error", { status: 500 });
