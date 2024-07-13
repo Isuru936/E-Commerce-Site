@@ -113,24 +113,7 @@ const ManageFood = () => {
         </div>
 
         <div className="text-white flex h-full p-2">
-          <div className="text-white h-full p-2">
-            <button
-              className={`p-2 w-full border-2 rounded-lg mb-3 ${
-                isCurrentMenu ? "button" : "bg-red-900 pt-3"
-              }`}
-              onClick={() => setIsCurrentMenu(!isCurrentMenu)}
-            >
-              Current Promotions
-            </button>
-            <button
-              className={`p-2 w-full border-2 rounded-lg mb-3 ${
-                isCurrentMenu ? "bg-red-900 pt-3" : "button"
-              }`}
-              onClick={() => setIsCurrentMenu(!isCurrentMenu)}
-            >
-              Current Menu
-            </button>
-          </div>
+          <div className="text-white h-full p-2"></div>
           <div className="text-white h-full p-2">
             <button
               className="p-2 border-2 rounded-lg mb-3 button hover:border-2 hover:border-red-900"
@@ -139,14 +122,6 @@ const ManageFood = () => {
               }}
             >
               Add Food
-            </button>
-            <button
-              className="p-2 border-2 rounded-lg button hover:border-2 hover:border-red-900"
-              onClick={() => {
-                setAddPromotion(!addPromotion);
-              }}
-            >
-              Add Promotions
             </button>
           </div>
         </div>

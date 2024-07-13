@@ -8,8 +8,8 @@ import gsap from "gsap";
 const topics = [
   { name: "Home", link: "/" },
   { name: "Menu", link: "/menu" },
-  { name: "Promotions", link: "/promotions" },
   { name: "About", link: "/about" },
+  { name: "Contact Us", link: "/contact" },
 ];
 
 const socials = [

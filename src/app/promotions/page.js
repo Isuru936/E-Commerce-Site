@@ -34,9 +34,7 @@ const Promotions = () => {
       <div className="absolute bottom-0 right-0">
         <NavBar />
       </div>
-      <div>
-        <Foods category="promotions" />
-      </div>
+      <div></div>
     </div>
   );
 };

@@ -1,10 +1,8 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import Home from "../page";
 import NavBar from "@/components/NavBar/NavBar";
 import Foods from "@/components/Foods/Foods";
 import { Roboto_Condensed } from "next/font/google";
-import gsap from "gsap";
 
 const roboto_Condensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -13,8 +11,6 @@ const roboto_Condensed = Roboto_Condensed({
 });
 
 function Menu() {
-  const navBarRef = useRef(null);
-
   return (
     <div
       className="bg-black w-screen h-screen text-white text-xl"
@@ -37,7 +33,7 @@ function Menu() {
         <NavBar />
       </div>
       <div>
-        <Foods category="menu" />
+        <Foods />
       </div>
     </div>
   );

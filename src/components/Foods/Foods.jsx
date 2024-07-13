@@ -9,7 +9,7 @@ const roboto_Condensed = Roboto_Condensed({
   weight: "100",
 });
 
-const Foods = ({ category }) => {
+const Foods = () => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const { data, error, isLoading } = useSWR("/api/food", fetcher);
@@ -19,7 +19,6 @@ const Foods = ({ category }) => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error...</div>;
 
-  console.log("cate", category);
   return (
     <div>
       <div>PIZZA Role</div>
