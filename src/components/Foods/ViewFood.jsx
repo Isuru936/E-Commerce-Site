@@ -72,15 +72,15 @@ const ViewFood = ({ id, onClose }) => {
 
       console.log("FormData sent to server:", JSON.stringify(formData));
 
-      if (!req.ok) {
+      console.log(req);
+      if (req.status === 500) {
         const errorText = await req.text();
         console.error(`HTTP error! Status: ${req.status}, Error: ${errorText}`);
         alert(`Failed to update food item: ${errorText}`);
         return;
       }
 
-      const res = await req.json();
-      console.log("Response from server:", res);
+      console.log("Response from server:", req);
 
       alert("Food Updated Successfully");
     } catch (error) {
@@ -148,7 +148,7 @@ const ViewFood = ({ id, onClose }) => {
                   }}
                   height={100}
                   objectFit="cover"
-                  className="object-fit w-full max-w-full bg-white rounded-lg max-h-96"
+                  className="object-fit w-full max-w-full rounded-lg max-h-64"
                 />
               </div>
               <div>
