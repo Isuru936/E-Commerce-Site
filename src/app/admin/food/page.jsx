@@ -9,6 +9,10 @@ import useSWR, { mutate } from "swr";
 import ViewFood from "@/components/Foods/ViewFood";
 import AddFood from "@/components/Foods/AddFood";
 import AddPromotions from "@/components/Foods/AddPromotions";
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { signOut, useSession } from "next-auth/react";
+import { redirect } from "next/dist/server/api-utils";
 
 const roboto_Condensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -23,6 +27,24 @@ const ManageFood = () => {
   const [showViewFood, setShowViewFood] = useState(false);
   const [showAddFood, setShowAddFood] = useState(false);
   const addPromotionRef = useRef(null);
+
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      return {
+        redirect: { destination: "/api/auth/signin?callbackUrl=/client" },
+      };
+    },
+  });
+
+  const fetchDetails = async () => {
+    const session = await getServerSession();
+    return session;
+  };
+
+  const handleSignout = async () => {
+    await signOut();
+  };
 
   const openViewFood = (id) => {
     setSelectedFoodId(id);
@@ -42,9 +64,14 @@ const ManageFood = () => {
     setAddPromotion(false);
   };
 
+  const getEmail = async () => {
+    const session = await getServerSession();
+    return session.user.email;
+  };
+
   //fetch Foods
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, error, isLoading } = useSWR("/api/food", fetcher);
+  const { data, error } = useSWR("/api/food", fetcher);
 
   //handleDelete
   const handleDelete = async (id) => {
@@ -82,15 +109,13 @@ const ManageFood = () => {
     }
   }, [addPromotion]);
 
-  // useEffect(() => {
-  //   if (edit) {
-  //     gsap.fromTo(
-  //       editFoodRef.current,
-  //       { opacity: 0, scale: 0.8 },
-  //       { opacity: 1, scale: 1, duration: 0.2 }
-  //     );
-  //   }
-  // }, [edit]);
+  if (!data) {
+    return (
+      <div className="w-screen h-screen bg-black flex justify-center items-center align-middle">
+        <Icon icon="line-md:loading-alt-loop" className="text-xl" /> Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="w-screen h-full p-5 bg-black">
@@ -123,6 +148,20 @@ const ManageFood = () => {
             >
               Add Food
             </button>
+            <div className="flex items-center gap-2">
+              {session && (
+                <>
+                  <Image
+                    src={session.user.image}
+                    className="rounded-full"
+                    width={30}
+                    height={50}
+                    alt="profile pic"
+                  />
+                  <p>{session.user.name}</p>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

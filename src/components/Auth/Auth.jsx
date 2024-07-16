@@ -6,6 +6,10 @@ const Auth = () => {
   const [close, setClose] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
 
+  const handleClose = () => {
+    setClose(true);
+  };
+
   return (
     <div>
       {!close &&
