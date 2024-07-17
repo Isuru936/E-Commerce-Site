@@ -1,6 +1,6 @@
 import GithubProvider from "next-auth/providers/github";
-import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const options = {
   providers: [
@@ -19,11 +19,13 @@ export const options = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        // Simulate user authentication
         const user = {
           id: 1,
           name: "J Smith",
           email: "john@email.com",
           password: "password",
+          role: "admin",
         };
         if (
           credentials.email === user.email &&
@@ -36,8 +38,18 @@ export const options = {
       },
     }),
   ],
-  // Uncomment the following to customize the sign-in page
-  // pages:{
-  //   signIn: '/auth/signin',
-  // }
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role ?? "user"; // Ensure role is assigned
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session?.user) {
+        session.user.role = token.role ?? "user"; // Ensure role is assigned
+      }
+      return session;
+    },
+  },
 };

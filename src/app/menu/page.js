@@ -13,7 +13,7 @@ const roboto_Condensed = Roboto_Condensed({
 function Menu() {
   return (
     <div
-      className="bg-black w-screen h-screen text-white text-xl"
+      className="bg-black w-screen text-white text-xl h-[100vh]"
       style={{
         backgroundImage: "url('/menu.jpeg')",
         backgroundPosition: "center",
@@ -22,7 +22,7 @@ function Menu() {
         backgroundAttachment: "fixed",
       }}
     >
-      <div className="w-full h-screen flex flex-col justify-center items-center">
+      <div className="w-full h-[100vh] flex flex-col justify-center items-center">
         <p className="font-thin text-3xl leading-normal">SIMPLY DELICIOUS</p>
         <p className="font-bold text-8xl leading-normal">Pizza</p>
         <p className={`${roboto_Condensed.className}  leading-normal`}>

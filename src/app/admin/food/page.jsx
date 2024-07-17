@@ -4,15 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Roboto_Condensed } from "next/font/google";
 import { Icon } from "@iconify/react";
 import gsap from "gsap";
-import uploadImage from "@/utils/handleImageUploads.js";
 import useSWR, { mutate } from "swr";
 import ViewFood from "@/components/Foods/ViewFood";
 import AddFood from "@/components/Foods/AddFood";
 import AddPromotions from "@/components/Foods/AddPromotions";
 import { getServerSession } from "next-auth";
-import { options } from "@/app/api/auth/[...nextauth]/options";
 import { signOut, useSession } from "next-auth/react";
-import { redirect } from "next/dist/server/api-utils";
 
 const roboto_Condensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -21,14 +18,13 @@ const roboto_Condensed = Roboto_Condensed({
 });
 
 const ManageFood = () => {
-  const [isCurrentMenu, setIsCurrentMenu] = useState(true);
   const [addPromotion, setAddPromotion] = useState(false);
   const [selectedFoodId, setSelectedFoodId] = useState("");
   const [showViewFood, setShowViewFood] = useState(false);
   const [showAddFood, setShowAddFood] = useState(false);
   const addPromotionRef = useRef(null);
 
-  const { data: session, status } = useSession({
+  const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
       return {
