@@ -1,8 +1,6 @@
 "use client";
-import Auth from "@/components/Auth/Auth";
 import Login from "@/components/Auth/Login/Login";
 import NavBar from "@/components/NavBar/NavBar";
-import { Icon } from "@iconify/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -39,8 +37,7 @@ export default function Home() {
     return session;
   };
 
-  const { data: session, status } = useSession();
-  const [toggle, setToggle] = useState(session === null ? true : false);
+  const { data: session } = useSession();
 
   const handleLogout = async () => {
     await signOut();
@@ -144,7 +141,6 @@ export default function Home() {
         <NavBar />
       </div>
       {toggleLogin && !session && <Login onClose={onToggle} />}
-      {/* {session && <Auth />} */}
     </div>
   );
 }

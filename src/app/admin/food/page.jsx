@@ -60,14 +60,9 @@ const ManageFood = () => {
     setAddPromotion(false);
   };
 
-  const getEmail = async () => {
-    const session = await getServerSession();
-    return session.user.email;
-  };
-
   //fetch Foods
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, error } = useSWR("/api/food", fetcher);
+  const { data } = useSWR("/api/food", fetcher);
 
   //handleDelete
   const handleDelete = async (id) => {
